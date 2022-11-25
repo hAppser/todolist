@@ -8,7 +8,6 @@ function App() {
   const [tasks, setTasks] = useState(todosData);
   const handleChange = id => {
     const index = tasks.map(item => item.id).indexOf(id);
-    console.log(tasks);
     setTasks(() => {
       tasks[index].completed = true;
       return [...activeTasks, ...completedTasks]
