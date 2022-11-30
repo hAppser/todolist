@@ -1,9 +1,12 @@
 import React from "react";
 import "./ToDoItem.css"
 
-const ToDoItem = ({completed, description, handleChange}) => {
+const ToDoItem = ({completed, description, handleChange, deleteItem}) => {
     const resolvedClass = {
         textDecoration : 'line-through'
+    }
+    const none = {
+        display : 'none'
     }
     return (
         <div className="todo-item">
@@ -14,8 +17,13 @@ const ToDoItem = ({completed, description, handleChange}) => {
             <p className="description" 
                 style={completed == true ? resolvedClass : {}}>
                 {description}
-            
             </p>
+            <div 
+                className="todo-delete"
+                onClick={deleteItem}
+            >
+                x
+            </div>
         </div>
     )
 }
