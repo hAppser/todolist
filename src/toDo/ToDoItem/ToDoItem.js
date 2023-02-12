@@ -5,9 +5,6 @@ const ToDoItem = ({completed, description, handleChange, deleteItem}) => {
     const resolvedClass = {
         textDecoration : 'line-through'
     }
-    const none = {
-        display : 'none'
-    }
     return (
         <div className="todo-item">
             <input type="checkbox" 

@@ -12,5 +12,5 @@
     font-weight: bold;
 }
 .todo-delete:hover {
-    scale: 1.2;
+    cursor: pointer;
 }

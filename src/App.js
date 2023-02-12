@@ -18,12 +18,13 @@ function App() {
       ...tasks.map((task) => task.id === id ? {...task, completed: !task.completed} : {...task})
     ])
   }
-
-  const addTask = input => {
-    if (input) {
+  const ids = tasks.map((task) => task.id);
+  const maxId = Math.max(...ids)
+  const addTask = text => {
+    if (text) {
       const newItem = {
-        id: (Math.random()+2).toString(36).substring(5),
-        text: input,
+        id: maxId + 1,
+        text,
         completed: false
       };
       setTasks([...tasks, newItem])
@@ -35,22 +36,23 @@ function App() {
   
   const activeTasks = tasks.filter(task => task.completed === false);
   const completedTasks = tasks.filter(task => task.completed === true);
-  const finalTasks = [...activeTasks, ...completedTasks].map(item => {
-    return (
-      <ToDoItem
-        key={item.id}
-        description={item.text}
-        completed={item.completed}
-        handleChange={()=>handleChange(item.id)}
-        deleteItem={()=>removeTask(item.id)}
-      />
-    );
-  });
+  const finalTasks = [...activeTasks, ...completedTasks];
   
   return (
     <div className='App'>
       <ToDoAddItem addTask={addTask}/>
-      {finalTasks}
+      {finalTasks.map(item => {
+        return (
+          <ToDoItem
+            key={item.id}
+            description={item.text}
+            completed={item.completed}
+            handleChange={()=>handleChange(item.id)}
+            deleteItem={()=>removeTask(item.id)}
+          />
+        );
+      })
+      }
     </div>
   )
 }
