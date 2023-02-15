@@ -1,11 +1,12 @@
 import './App.css';
 import {useState, useEffect} from 'react';
-import ToDoItem from './toDo/ToDoItem/ToDoItem'
-import todosData from './toDo/todosData.js'
-import ToDoAddItem from './toDo/ToDoAddItem/ToDoAddItem';
-
+import ToDoItem from './components/toDo/ToDoItem/ToDoItem' 
+import todosData from './components/toDo/todosData.js'
+import ToDoAddItem from './components/toDo/ToDoAddItem/ToDoAddItem';
+import Title from './components/Title/Title';
 
 function App() {
+  
   const initalTodos = localStorage.tasks ? JSON.parse(localStorage.getItem('tasks')) : todosData;
   const [tasks, setTasks] = useState(initalTodos);
 
@@ -23,7 +24,7 @@ function App() {
   const addTask = text => {
     if (text) {
       const newItem = {
-        id: maxId + 1,
+        id: maxId >= 0 ? maxId + 1: 1,
         text,
         completed: false
       };
@@ -33,18 +34,17 @@ function App() {
   const removeTask = id => {
     setTasks([...tasks.filter((task)=> task.id !== id)])
   }
-  
-  const activeTasks = tasks.filter(task => task.completed === false);
-  const completedTasks = tasks.filter(task => task.completed === true);
-  const finalTasks = [...activeTasks, ...completedTasks];
-  
+  const finalTasks = tasks.sort((a,b)=>{return a.completed - b.completed});
+
   return (
-    <div className='App'>
-      <ToDoAddItem addTask={addTask}/>
+    <div className='App w-body rounded-3xl px-52 pb-12 ml-52 font-medium text-black'>
+     <Title />
+        <ToDoAddItem addTask={addTask}/>
       {finalTasks.map(item => {
         return (
           <ToDoItem
             key={item.id}
+            id={item.id}
             description={item.text}
             completed={item.completed}
             handleChange={()=>handleChange(item.id)}

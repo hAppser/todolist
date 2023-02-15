@@ -1,4 +1,8 @@
-.todo-item {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .todo-item {
     display: flex;
     justify-content: space-between;
     width: 200px;
@@ -13,4 +17,4 @@
 }
 .todo-delete:hover {
     cursor: pointer;
-}
+} */
