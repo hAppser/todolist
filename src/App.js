@@ -4,6 +4,8 @@ import ToDoItem from './components/toDo/ToDoItem/ToDoItem'
 import todosData from './components/toDo/todosData.js'
 import ToDoAddItem from './components/toDo/ToDoAddItem/ToDoAddItem';
 import Title from './components/Title/Title';
+import Footer from './components/Footer/Footer';
+
 
 function App() {
   
@@ -34,10 +36,14 @@ function App() {
   const removeTask = id => {
     setTasks([...tasks.filter((task)=> task.id !== id)])
   }
-  const finalTasks = tasks.sort((a,b)=>{return a.completed - b.completed});
+  const clearTasks = () => {
+    setTasks([])
+  }
+  const sortTasks = (a,b) => a.completed - b.completed
+  const finalTasks = tasks.sort(sortTasks);
 
   return (
-    <div className='App w-body rounded-3xl px-52 pb-12 ml-52 font-medium text-black'>
+    <div className='App w-10/12 lg:w-body rounded-3xl lg:px-52 md:pb-12 lg:ml-52 mx-5 max-md:text-2xl font-medium text-black'>
      <Title />
         <ToDoAddItem addTask={addTask}/>
       {finalTasks.map(item => {
@@ -53,8 +59,12 @@ function App() {
         );
       })
       }
+      <Footer 
+        count={finalTasks.length} 
+        clearTasks={()=>clearTasks()}
+      />
     </div>
-  )
+)
 }
 
 export default App;
