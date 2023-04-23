@@ -1,11 +1,14 @@
 import './App.css';
 import {useState, useEffect} from 'react';
-import ToDoItem from './toDo/ToDoItem/ToDoItem'
-import todosData from './toDo/todosData.js'
-import ToDoAddItem from './toDo/ToDoAddItem/ToDoAddItem';
+import ToDoItem from './components/toDo/ToDoItem/ToDoItem' 
+import todosData from './components/toDo/todosData.js'
+import ToDoAddItem from './components/toDo/ToDoAddItem/ToDoAddItem';
+import Title from './components/Title/Title';
+import Footer from './components/Footer/Footer';
 
 
 function App() {
+  
   const initalTodos = localStorage.tasks ? JSON.parse(localStorage.getItem('tasks')) : todosData;
   const [tasks, setTasks] = useState(initalTodos);
 
@@ -23,7 +26,7 @@ function App() {
   const addTask = text => {
     if (text) {
       const newItem = {
-        id: maxId + 1,
+        id: maxId >= 0 ? maxId + 1: 1,
         text,
         completed: false
       };
@@ -33,18 +36,21 @@ function App() {
   const removeTask = id => {
     setTasks([...tasks.filter((task)=> task.id !== id)])
   }
-  
-  const activeTasks = tasks.filter(task => task.completed === false);
-  const completedTasks = tasks.filter(task => task.completed === true);
-  const finalTasks = [...activeTasks, ...completedTasks];
-  
+  const clearTasks = () => {
+    setTasks([])
+  }
+  const sortTasks = (a,b) => a.completed - b.completed
+  const finalTasks = tasks.sort(sortTasks);
+
   return (
-    <div className='App'>
-      <ToDoAddItem addTask={addTask}/>
+    <div className='App w-10/12 lg:w-body rounded-3xl lg:px-52 md:pb-12 lg:ml-52 mx-5 max-md:text-2xl font-medium text-black'>
+     <Title />
+        <ToDoAddItem addTask={addTask}/>
       {finalTasks.map(item => {
         return (
           <ToDoItem
             key={item.id}
+            id={item.id}
             description={item.text}
             completed={item.completed}
             handleChange={()=>handleChange(item.id)}
@@ -53,8 +59,12 @@ function App() {
         );
       })
       }
+      <Footer 
+        count={finalTasks.length} 
+        clearTasks={()=>clearTasks()}
+      />
     </div>
-  )
+)
 }
 
 export default App;
